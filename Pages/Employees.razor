@@ -1,0 +1,12 @@
+﻿@page "/"
+
+<PageTitle>Employees</PageTitle>
+
+<h2>Employees</h2>
+
+<ul>
+    @foreach (var employee in EmployeesList)
+    {
+        <li>@employee.LastName, @employee.FirstName</li>
+    }
+</ul>
