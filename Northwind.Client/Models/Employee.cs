@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Northwind.Models;
+﻿namespace Northwind.Client.Models;
 
 public class Employee
 {
