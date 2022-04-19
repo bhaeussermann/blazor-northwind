@@ -22,12 +22,13 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapFallbackToFile("index.html");
 
-var httpClient = new HttpClient { BaseAddress = new Uri("https://northwind-express-api.herokuapp.com/") };
+var apiUri = new Uri(builder.Configuration.GetValue<string>("NorthwindApiUri"));
+var httpClient = new HttpClient { BaseAddress = apiUri };
 app.MapMethods("/api/{**path}", new[] { HttpMethods.Get, HttpMethods.Post, HttpMethods.Put, HttpMethods.Delete }, async context =>
 {
     string apiPath = (string)context.GetRouteValue("path");
     var response = await httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(context.Request.Method), apiPath));
-    context.Response.StatusCode = StatusCodes.Status200OK;
+    context.Response.StatusCode = (int)response.StatusCode;
     await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
 });
 
