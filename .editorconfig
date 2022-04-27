@@ -1,0 +1,5 @@
+﻿root = true
+
+[*.cs]
+dotnet_style_qualification_for_field = true:warning
+dotnet_style_qualification_for_property = false:warning

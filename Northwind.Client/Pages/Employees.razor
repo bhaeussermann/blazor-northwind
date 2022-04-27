@@ -4,9 +4,12 @@
 
 <PageTitle>Employees</PageTitle>
 
-<h2>Employees</h2>
+<div class="title-row">
+    <h2 class="title">Employees</h2>
+    <RadzenTextBox Placeholder="Search" @oninput="@(args => SearchText = args.Value.ToString())" />
+</div>
 
-<RadzenDataGrid TItem="Employee" Data="@EmployeesList" AllowSorting="true">
+<RadzenDataGrid TItem="Employee" Data="@FilteredEmployeesList" AllowSorting="true">
     <Columns>
         <RadzenDataGridColumn Title="Last Name" TItem="Employee" Property="LastName" />
         <RadzenDataGridColumn Title="First Name" TItem="Employee" Property="FirstName" />

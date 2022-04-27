@@ -1,4 +1,6 @@
-﻿header {
+﻿@import url('../Northwind.Client.styles.css');
+
+header {
     display: flex;
     height: 120px;
     padding: 20px;

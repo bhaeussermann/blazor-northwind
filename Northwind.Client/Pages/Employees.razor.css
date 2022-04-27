@@ -1,0 +1,7 @@
+﻿.title-row {
+    display: flex;
+}
+
+.title {
+    flex-grow: 1;
+}
