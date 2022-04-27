@@ -14,6 +14,8 @@ public partial class Employees
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        EmployeesList = (await EmployeeDataService.GetAll()).ToArray();
+        EmployeesList = (await EmployeeDataService.GetAll())
+            .OrderBy(e => e.LastName)
+            .ToArray();
     }
 }

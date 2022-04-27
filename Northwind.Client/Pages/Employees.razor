@@ -1,12 +1,15 @@
 ﻿@page "/"
 
+@using Northwind.Client.Models
+
 <PageTitle>Employees</PageTitle>
 
 <h2>Employees</h2>
 
-<ul>
-    @foreach (var employee in EmployeesList)
-    {
-        <li>@employee.LastName, @employee.FirstName</li>
-    }
-</ul>
+<RadzenDataGrid TItem="Employee" Data="@EmployeesList" AllowSorting="true">
+    <Columns>
+        <RadzenDataGridColumn Title="Last Name" TItem="Employee" Property="LastName" />
+        <RadzenDataGridColumn Title="First Name" TItem="Employee" Property="FirstName" />
+        <RadzenDataGridColumn Title="Title" TItem="Employee" Property="Title" />
+    </Columns>
+</RadzenDataGrid>
