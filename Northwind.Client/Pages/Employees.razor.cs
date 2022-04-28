@@ -8,7 +8,9 @@ public partial class Employees
 {
     private IEnumerable<Employee> employees;
 
-    public bool IsLoading => this.employees == null;
+    public bool IsLoading => (this.employees == null) && LoadErrorText == null;
+
+    public string LoadErrorText { get; private set; }
 
     public IEnumerable<Employee> FilteredEmployeesList
     {
@@ -26,16 +28,23 @@ public partial class Employees
         }
     }
 
+    public string SearchText { get; set; }
+
     [Inject]
     private EmployeeDataService EmployeeDataService { get; set; }
-
-    public string SearchText { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        this.employees = (await EmployeeDataService.GetAll())
-            .OrderBy(e => e.LastName)
-            .ToArray();
+        try
+        {
+            this.employees = (await EmployeeDataService.GetAll())
+                .OrderBy(e => e.LastName)
+                .ToArray();
+        }
+        catch (Exception exception)
+        {
+            LoadErrorText = exception.Message;
+        }
     }
 }

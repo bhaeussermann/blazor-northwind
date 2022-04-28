@@ -1,7 +1,5 @@
 ﻿@page "/"
 
-@using Northwind.Client.Models
-
 <PageTitle>Employees</PageTitle>
 
 <div class="title-row">
@@ -14,9 +12,11 @@
 
 @if (IsLoading)
 {
-<div class="loader">
-    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
-</div>
+<Spinner />
+}
+else if (LoadErrorText != null)
+{
+<div class="error">Error loading employees: @LoadErrorText</div>
 }
 else
 {
