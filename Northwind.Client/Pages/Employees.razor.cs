@@ -8,6 +8,8 @@ public partial class Employees
 {
     private IEnumerable<Employee> employees;
 
+    public bool IsLoading => this.employees == null;
+
     public IEnumerable<Employee> FilteredEmployeesList
     {
         get

@@ -6,9 +6,20 @@
 
 <div class="title-row">
     <h2 class="title">Employees</h2>
+    @if (!IsLoading)
+    {
     <RadzenTextBox Placeholder="Search" @oninput="@(args => SearchText = args.Value.ToString())" />
+    }
 </div>
 
+@if (IsLoading)
+{
+<div class="loader">
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+</div>
+}
+else
+{
 <RadzenDataGrid TItem="Employee" Data="@FilteredEmployeesList" AllowSorting="true">
     <Columns>
         <RadzenDataGridColumn Title="Last Name" TItem="Employee" Property="LastName" />
@@ -16,3 +27,4 @@
         <RadzenDataGridColumn Title="Title" TItem="Employee" Property="Title" />
     </Columns>
 </RadzenDataGrid>
+}
