@@ -1,0 +1,28 @@
+﻿@page "/employees/add"
+
+<PageTitle>Add employee</PageTitle>
+
+<h2 class="title">Add employee</h2>
+
+<EditForm Model="@Employee" OnValidSubmit="@HandleValidSubmit">
+    <div class="fields">
+        <label for="last-name">Last name:</label>
+        <RadzenTextBox id="last-name" @bind-Value=@Employee.LastName />
+        <div />
+
+        <label for="first-name">First name:</label>
+        <RadzenTextBox id="first-name" @bind-Value=@Employee.FirstName />
+        <div />
+
+        <label for="title">Title:</label>
+        <RadzenTextBox id="title" @bind-Value=@Employee.Title />
+        <div />
+
+        <label for="birth-date">Birth date:</label>
+        <RadzenDatePicker id="birth-date" @bind-Value=@Employee.BirthDate DateFormat="yyyy/MM/dd" AllowClear="true" />
+        <div />
+    </div>
+
+    <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Primary">Add</RadzenButton>
+    <RadzenButton ButtonType="ButtonType.Button" ButtonStyle="ButtonStyle.Secondary" Click="@CancelEdit">Cancel</RadzenButton>
+</EditForm>

@@ -8,9 +8,11 @@ public partial class Employees
 {
     private IEnumerable<Employee> employees;
 
-    public bool IsLoading => (this.employees == null) && LoadErrorText == null;
+    public bool IsLoading => (this.employees == null) && !DidFailLoading;
 
-    public string LoadErrorText { get; private set; }
+    public bool DidLoad => this.employees != null;
+
+    public bool DidFailLoading { get; private set; }
 
     public IEnumerable<Employee> FilteredEmployeesList
     {
@@ -33,18 +35,31 @@ public partial class Employees
     [Inject]
     private EmployeeDataService EmployeeDataService { get; set; }
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    private NotificationService NotificationService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        DidFailLoading = false;
         try
         {
             this.employees = (await EmployeeDataService.GetAll())
                 .OrderBy(e => e.LastName)
                 .ToArray();
         }
-        catch (Exception exception)
+        catch (ApiException exception)
         {
-            LoadErrorText = exception.Message;
+            NotificationService.NotifyError("Error loading employees", exception.Message);
+            DidFailLoading = true;
         }
+    }
+
+    protected void AddEmployee()
+    {
+        NavigationManager.NavigateTo("/employees/add");
     }
 }

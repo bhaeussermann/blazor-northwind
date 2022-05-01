@@ -1,10 +1,11 @@
 ﻿@page "/"
+@page "/employees"
 
 <PageTitle>Employees</PageTitle>
 
 <div class="title-row">
     <h2 class="title">Employees</h2>
-    @if (!IsLoading)
+    @if (DidLoad)
     {
     <RadzenTextBox Placeholder="Search" @oninput="@(args => SearchText = args.Value.ToString())" />
     }
@@ -14,12 +15,14 @@
 {
 <Spinner />
 }
-else if (LoadErrorText != null)
+else if (DidFailLoading)
 {
-<div class="error">Error loading employees: @LoadErrorText</div>
+<div class="error">Couldn't load employees.</div>
 }
 else
 {
+<RadzenButton Click="@AddEmployee">Add employee</RadzenButton>
+
 <RadzenDataGrid TItem="Employee" Data="@FilteredEmployeesList" AllowSorting="true">
     <Columns>
         <RadzenDataGridColumn Title="Last Name" TItem="Employee" Property="LastName" />

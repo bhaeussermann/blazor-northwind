@@ -1,0 +1,10 @@
+﻿.fields {
+    display: grid;
+    margin-bottom: 15px;
+    grid-template-columns: auto auto 1fr;
+    row-gap: 10px;
+}
+
+label {
+    margin: auto 20px auto 0;
+}

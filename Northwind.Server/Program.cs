@@ -1,4 +1,7 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using System.Net;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -27,9 +30,28 @@ var httpClient = new HttpClient { BaseAddress = apiUri };
 app.MapMethods("/api/{**path}", new[] { HttpMethods.Get, HttpMethods.Post, HttpMethods.Put, HttpMethods.Delete }, async context =>
 {
     string apiPath = (string)context.GetRouteValue("path");
-    var response = await httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(context.Request.Method), apiPath));
-    context.Response.StatusCode = (int)response.StatusCode;
-    await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
+    var request = new HttpRequestMessage(new HttpMethod(context.Request.Method), apiPath);
+    if ((context.Request.Method == HttpMethods.Post) || (context.Request.Method == HttpMethods.Put))
+    {
+        string requestBody;
+        using (var stringReader = new StreamReader(context.Request.Body))
+        {
+            requestBody = await stringReader.ReadToEndAsync();
+        }
+        request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+    }
+
+    try
+    {
+        var response = await httpClient.SendAsync(request);
+        context.Response.StatusCode = (int)response.StatusCode;
+        await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
+    }
+    catch (HttpRequestException exception)
+    {
+        context.Response.StatusCode = (int)(exception.StatusCode ?? HttpStatusCode.InternalServerError);
+        await context.Response.WriteAsync(exception.Message);
+    }
 });
 
 app.Run();
