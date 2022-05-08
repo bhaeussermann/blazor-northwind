@@ -21,7 +21,9 @@ else if (DidFailLoading)
 }
 else
 {
-<RadzenButton Click="@AddEmployee">Add employee</RadzenButton>
+<div class="add-button-container">
+    <RadzenButton Click="@AddEmployee">Add employee</RadzenButton>
+</div>
 
 <RadzenDataGrid TItem="Employee" Data="@FilteredEmployeesList" AllowSorting="true">
     <Columns>

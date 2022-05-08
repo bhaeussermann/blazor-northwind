@@ -8,3 +8,11 @@
 label {
     margin: auto 20px auto 0;
 }
+
+.validator-container {
+    margin: auto 10px;
+}
+
+.button-row {
+    display: flex;
+}

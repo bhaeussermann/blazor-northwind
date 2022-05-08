@@ -5,3 +5,7 @@
 .title {
     flex-grow: 1;
 }
+
+.add-button-container {
+    margin-bottom: 10px;
+}

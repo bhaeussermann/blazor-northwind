@@ -8,6 +8,7 @@ namespace Northwind.Client.Pages;
 public partial class EditEmployee
 {
     public Employee Employee { get; } = new();
+    public bool IsSaving { get; private set; }
 
     [Inject]
     private EmployeeDataService EmployeeDataService { get; set; }
@@ -32,6 +33,7 @@ public partial class EditEmployee
 
     protected async Task HandleValidSubmit()
     {
+        IsSaving = true;
         try
         {
             await EmployeeDataService.Add(Employee);
@@ -40,6 +42,10 @@ public partial class EditEmployee
         catch (ApiException exception)
         {
             NotificationService.NotifyError("Error adding employee", exception.Message);
+        }
+        finally
+        {
+            IsSaving = false;
         }
     }
 
