@@ -4,6 +4,9 @@ namespace Northwind.Client.Models;
 
 public class Employee
 {
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
     [JsonPropertyName("lastName")]
     public string LastName { get; set; }
 

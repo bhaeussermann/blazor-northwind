@@ -9,3 +9,11 @@
 .add-button-container {
     margin-bottom: 10px;
 }
+
+.column-link-container {
+    display: flex;
+}
+
+.column-link {
+    margin: auto;
+}

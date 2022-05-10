@@ -21,9 +21,22 @@ internal sealed class EmployeeDataService
         return JsonSerializer.Deserialize<IEnumerable<Employee>>(await response.Content.ReadAsStringAsync());
     }
 
+    public async Task<Employee> Get(int employeeId)
+    {
+        var response = await this.httpClient.GetAsync(employeeId.ToString());
+        await HandleErrorResponse(response);
+        return JsonSerializer.Deserialize<Employee>(await response.Content.ReadAsStringAsync());
+    }
+
     public async Task Add(Employee employeeToAdd)
     {
         var response = await this.httpClient.PostAsync("", new StringContent(JsonSerializer.Serialize(employeeToAdd)));
+        await HandleErrorResponse(response);
+    }
+
+    public async Task Update(Employee employeeToUpdate)
+    {
+        var response = await this.httpClient.PutAsync(employeeToUpdate.Id.ToString(), new StringContent(JsonSerializer.Serialize(employeeToUpdate)));
         await HandleErrorResponse(response);
     }
 

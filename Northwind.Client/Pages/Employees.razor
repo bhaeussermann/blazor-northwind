@@ -27,9 +27,16 @@ else
 
 <RadzenDataGrid TItem="Employee" Data="@FilteredEmployeesList" AllowSorting="true">
     <Columns>
-        <RadzenDataGridColumn Title="Last Name" TItem="Employee" Property="LastName" />
-        <RadzenDataGridColumn Title="First Name" TItem="Employee" Property="FirstName" />
-        <RadzenDataGridColumn Title="Title" TItem="Employee" Property="Title" />
+        <RadzenDataGridColumn TItem="Employee" Title="Last Name" Property="LastName" />
+        <RadzenDataGridColumn TItem="Employee" Title="First Name" Property="FirstName" />
+        <RadzenDataGridColumn TItem="Employee" Title="Title" Property="Title" />
+        <RadzenDataGridColumn TItem="Employee" Sortable="false" Width="150px">
+            <Template Context="employee">
+                <div class="column-link-container">
+                    <a class="column-link" href="javascript:void(0);" @onclick=@(() => EditEmployee(employee))>Edit</a>
+                </div>
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 }

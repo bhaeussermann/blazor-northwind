@@ -62,4 +62,9 @@ public partial class Employees
     {
         NavigationManager.NavigateTo("/employees/add");
     }
+
+    protected void EditEmployee(Employee employee)
+    {
+        NavigationManager.NavigateTo("/employees/" + employee.Id);
+    }
 }

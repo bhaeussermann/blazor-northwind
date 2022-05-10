@@ -1,47 +1,61 @@
 ﻿@page "/employees/add"
+@page "/employees/{EmployeeId}"
 
-<PageTitle>Add employee</PageTitle>
+@{
+    var title = $"{(IsEditing ? "Edit" : "Add")} employee";
+}
 
-<h2 class="title">Add employee</h2>
+<PageTitle>@title</PageTitle>
 
-<RadzenTemplateForm TItem="Employee" Data=@Employee Submit=@HandleValidSubmit>
-    <div class="fields">
-        <label for="last-name">Last name:</label>
-        <RadzenTextBox id="last-name" Name="LastName" @bind-Value=@Employee.LastName />
-        <div class="validator-container">
-            <RadzenRequiredValidator Component="LastName" Text="Last name is required" />
+<h2 class="title">@title</h2>
+
+@if (IsLoading)
+{
+    <Spinner />
+}
+else if (DidLoadingFail)
+{
+    <div class="error">Failed loading employee.</div>
+}
+else
+{
+    <RadzenTemplateForm TItem="Employee" Data=@Employee Submit=@HandleValidSubmit>
+        <div class="fields">
+            <label for="last-name">Last name:</label>
+            <RadzenTextBox id="last-name" Name="LastName" @bind-Value=@Employee.LastName />
+            <div class="validator-container">
+                <RadzenRequiredValidator Component="LastName" Text="Last name is required" />
+            </div>
+
+            <label for="first-name">First name:</label>
+            <RadzenTextBox id="first-name" Name="FirstName" @bind-Value=@Employee.FirstName />
+            <div class="validator-container">
+                <RadzenRequiredValidator Component="FirstName" Text="First name is required" />
+            </div>
+
+            <label for="title">Title:</label>
+            <RadzenTextBox id="title" Name="Title" @bind-Value=@Employee.Title />
+            <div class="validator-container">
+                <RadzenRequiredValidator Component="Title" Text="Title is required" />
+            </div>
+
+            <label for="birth-date">Birth date:</label>
+            <RadzenDatePicker id="birth-date" @bind-Value=@Employee.BirthDate DateFormat="yyyy/MM/dd" AllowClear="true" />
+            <div />
         </div>
 
-        <label for="first-name">First name:</label>
-        <RadzenTextBox id="first-name" Name="FirstName" @bind-Value=@Employee.FirstName />
-        <div class="validator-container">
-            <RadzenRequiredValidator Component="FirstName" Text="First name is required" />
+        <div class="button-row">
+            <RadzenButton ButtonType="ButtonType.Submit"
+                          ButtonStyle="ButtonStyle.Primary"
+                          Disabled=@IsSaving>@(IsEditing ? "Save" : "Add")</RadzenButton>
+            @if (IsSaving)
+            {
+                <Spinner IsInline="true" />
+            }
+            <RadzenButton ButtonType="ButtonType.Button"
+                          ButtonStyle="ButtonStyle.Secondary"
+                          Click=@CancelEdit
+                          Disabled=@IsSaving>Cancel</RadzenButton>
         </div>
-
-        <label for="title">Title:</label>
-        <RadzenTextBox id="title" Name="Title" @bind-Value=@Employee.Title />
-        <div class="validator-container">
-            <RadzenRequiredValidator Component="Title" Text="Title is required" />
-        </div>
-
-        <label for="birth-date">Birth date:</label>
-        <RadzenDatePicker id="birth-date" @bind-Value=@Employee.BirthDate DateFormat="yyyy/MM/dd" AllowClear="true" />
-        <div />
-    </div>
-
-    <div class="button-row">
-        <RadzenButton
-            ButtonType="ButtonType.Submit"
-            ButtonStyle="ButtonStyle.Primary"
-            Disabled=@IsSaving>Add</RadzenButton>
-        @if (IsSaving)
-        {
-            <Spinner IsInline="true" />
-        }
-        <RadzenButton
-            ButtonType="ButtonType.Button"
-            ButtonStyle="ButtonStyle.Secondary"
-            Click=@CancelEdit
-            Disabled=@IsSaving>Cancel</RadzenButton>
-    </div>
-</RadzenTemplateForm>
+    </RadzenTemplateForm>
+}
