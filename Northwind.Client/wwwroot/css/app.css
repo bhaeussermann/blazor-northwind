@@ -19,10 +19,22 @@ main {
     margin: 0 0 0 5px;
 }
 
+.column-container {
+    display: flex;
+}
+
+.column-container > .column-content {
+    margin: auto !important;
+}
+
 .error {
     color: red;
     font-weight: bold;
     font-size: 1.2em;
+}
+
+.rz-dialog-content .rz-button {
+    width: 120px !important;
 }
 
 #blazor-error-ui {

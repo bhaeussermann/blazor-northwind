@@ -6,4 +6,7 @@ public partial class Spinner
 {
     [Parameter]
     public bool IsInline { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
 }

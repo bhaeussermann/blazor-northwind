@@ -19,7 +19,8 @@ else if (DidFailLoading)
 {
 <div class="error">Couldn't load employees.</div>
 }
-else
+
+@if (DidLoad)
 {
 <div class="add-button-container">
     <RadzenButton Click="@AddEmployee">Add employee</RadzenButton>
@@ -32,8 +33,22 @@ else
         <RadzenDataGridColumn TItem="Employee" Title="Title" Property="Title" />
         <RadzenDataGridColumn TItem="Employee" Sortable="false" Width="150px">
             <Template Context="employee">
-                <div class="column-link-container">
-                    <a class="column-link" href="javascript:void(0);" @onclick=@(() => EditEmployee(employee))>Edit</a>
+                <div class="column-container">
+                    <a class="column-content" href="javascript:void(0);" @onclick=@(() => EditEmployee(employee))>Edit</a>
+                </div>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Employee" Sortable="false" Width="150px">
+            <Template Context="employee">
+                <div class="column-container">
+                    @if (employee == EmployeeBeingDeleted)
+                    {
+                        <Spinner IsInline="true" CssClass="column-content" />
+                    }
+                    else
+                    {
+                        <a class="column-content" href="javascript:void(0);" @onclick=@(() => DeleteEmployee(employee))>Delete</a>
+                    }
                 </div>
             </Template>
         </RadzenDataGridColumn>

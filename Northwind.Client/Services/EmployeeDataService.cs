@@ -40,6 +40,12 @@ internal sealed class EmployeeDataService
         await HandleErrorResponse(response);
     }
 
+    public async Task Delete(Employee employeeToDelete)
+    {
+        var response = await this.httpClient.DeleteAsync(employeeToDelete.Id.ToString());
+        await HandleErrorResponse(response);
+    }
+
     private static async Task HandleErrorResponse(HttpResponseMessage response)
     {
         if (response.StatusCode != HttpStatusCode.OK)
