@@ -1,5 +1,11 @@
 ﻿@import url('../Northwind.Client.styles.css');
 
+#github-ribbon {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
 header {
     display: flex;
     height: 120px;
