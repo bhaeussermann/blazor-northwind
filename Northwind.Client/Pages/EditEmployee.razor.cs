@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Northwind.Client.Models;
 using Northwind.Client.Services;
@@ -10,6 +11,7 @@ public partial class EditEmployee
     [Parameter]
     public string EmployeeId { get; set; }
 
+    public EditContext EditContext { get; private set; }
     public Employee Employee { get; private set; } = new();
 
     public bool IsEditing => EmployeeId != null;
@@ -55,6 +57,8 @@ public partial class EditEmployee
                 await FocusFirstField(waitForNextEventLoop: true);
             }
         }
+
+        EditContext = new(Employee);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -72,6 +76,24 @@ public partial class EditEmployee
         await JavaScriptRuntime.InvokeVoidAsync("eval", waitForNextEventLoop
             ? "setTimeout(() => document.getElementById('last-name').focus())"
             : "document.getElementById('last-name').focus()");
+    }
+
+    protected void HandleLastNameChanged(ChangeEventArgs args)
+    {
+        Employee.LastName = args.Value.ToString();
+        new Timer(args => EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Employee.LastName)), null, 1, Timeout.Infinite);
+    }
+
+    protected void HandleFirstNameChanged(ChangeEventArgs args)
+    {
+        Employee.FirstName = args.Value.ToString();
+        new Timer(args => EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Employee.FirstName)), null, 1, Timeout.Infinite);
+    }
+
+    protected void HandleTitleChanged(ChangeEventArgs args)
+    {
+        Employee.Title = args.Value.ToString();
+        new Timer(args => EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Employee.Title)), null, 1, Timeout.Infinite);
     }
 
     protected async Task HandleValidSubmit()

@@ -19,22 +19,22 @@ else if (DidLoadingFail)
 }
 else
 {
-    <RadzenTemplateForm TItem="Employee" Data=@Employee Submit=@HandleValidSubmit>
+    <RadzenTemplateForm EditContext=@EditContext TItem="Employee" Data=@Employee Submit=@HandleValidSubmit>
         <div class="fields">
             <label for="last-name">Last name:</label>
-            <RadzenTextBox id="last-name" Name="LastName" @bind-Value=@Employee.LastName />
+            <RadzenTextBox id="last-name" Name="LastName" @bind-Value=@Employee.LastName @oninput=@HandleLastNameChanged />
             <div class="validator-container">
                 <RadzenRequiredValidator Component="LastName" Text="Last name is required" />
             </div>
 
             <label for="first-name">First name:</label>
-            <RadzenTextBox id="first-name" Name="FirstName" @bind-Value=@Employee.FirstName />
+            <RadzenTextBox id="first-name" Name="FirstName" @bind-Value=@Employee.FirstName @oninput=@HandleFirstNameChanged />
             <div class="validator-container">
                 <RadzenRequiredValidator Component="FirstName" Text="First name is required" />
             </div>
 
             <label for="title">Title:</label>
-            <RadzenTextBox id="title" Name="Title" @bind-Value=@Employee.Title />
+            <RadzenTextBox id="title" Name="Title" @bind-Value=@Employee.Title @oninput=@HandleTitleChanged />
             <div class="validator-container">
                 <RadzenRequiredValidator Component="Title" Text="Title is required" />
             </div>
